@@ -17,7 +17,7 @@
       },
       {
         "src": "/apps/proxy",
-        "dest": "/public/register-sw.html"
+        "dest": "/public/service-worker.js"
       },
       {
         "src": "/register-sw.html",

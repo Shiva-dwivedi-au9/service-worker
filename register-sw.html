@@ -8,9 +8,7 @@
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker
-          .register(
-            "https://service-worker-hl1dc0d6k-shivadwivediau9s-projects.vercel.app/service-worker.js"
-          )
+          .register("/service-worker.js")
           .then(function (registration) {
             console.log(
               "Service Worker registered with scope:",

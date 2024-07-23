@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const port = process.env.PORT || 5000;
 
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
@@ -13,13 +12,21 @@ app.use((req, res, next) => {
 });
 
 app.get('/service-worker.js', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/service-worker.js'));
+    res.sendFile(path.join(__dirname, 'public/service-worker.js'), err => {
+        if (err) {
+            console.error(err);
+            res.status(500).send(err);
+        }
+    });
 });
 
 app.get('/register-sw.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/register-sw.html'));
+    res.sendFile(path.join(__dirname, 'public/register-sw.html'), err => {
+        if (err) {
+            console.error(err);
+            res.status(500).send(err);
+        }
+    });
 });
 
-app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
-});
+module.exports = app;

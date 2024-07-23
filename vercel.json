@@ -1,0 +1,28 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "server.js",
+        "use": "@vercel/node"
+      },
+      {
+        "src": "public/**/*",
+        "use": "@vercel/static"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/service-worker.js",
+        "dest": "/public/service-worker.js"
+      },
+      {
+        "src": "/register-sw.html",
+        "dest": "/public/register-sw.html"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/server.js"
+      }
+    ]
+  }
+  

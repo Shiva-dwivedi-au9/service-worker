@@ -11,8 +11,8 @@
           .register("/service-worker.js")
           .then(function (registration) {
             console.log(
-              "Service Worker registered with scope:",
-              registration.scope
+              "=====> Service Worker registered with scope:",
+              registration
             );
             window.parent.postMessage("sw-registered", "*");
 

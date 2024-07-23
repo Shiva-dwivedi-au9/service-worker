@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Register Service Worker</title>
+  </head>
+  <body>
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("/service-worker.js")
+          .then(function (registration) {
+            console.log(
+              "Service Worker registered with scope:",
+              registration.scope
+            );
+            window.parent.postMessage("sw-registered", "*");
+
+            // Listen for subscription requests from the parent window
+            window.addEventListener("message", function (event) {
+              if (event.data === "subscribe-user") {
+                subscribeUserToPush(registration);
+              }
+            });
+          })
+          .catch(function (error) {
+            console.error("Service Worker registration failed:", error);
+          });
+      }
+
+      function urlB64ToUint8Array(base64String) {
+        const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+        const base64 = (base64String + padding)
+          .replace(/\-/g, "+")
+          .replace(/_/g, "/");
+        const rawData = window.atob(base64);
+        const outputArray = new Uint8Array(rawData.length);
+        for (let i = 0; i < rawData.length; ++i) {
+          outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
+      }
+
+      function subscribeUserToPush(swReg) {
+        const applicationServerKey = urlB64ToUint8Array(
+          "BDJaEIQxolpNE3E55NUSYaQPvXQ3xL7zSxRAh-ht4Z8F3sQsOc_KvrexPdhqLRzlJaVNJ9nsNvT15HY6doxzPlo"
+        );
+        console.log("======>applicationServer key", applicationServerKey);
+        swReg.pushManager
+          .subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: applicationServerKey,
+          })
+          .then(function (subscription) {
+            console.log("User is subscribed:", subscription);
+
+            // Send subscription to your server
+            sendSubscriptionToServer(subscription);
+          })
+          .catch(function (error) {
+            console.error("Failed to subscribe the user: ", error);
+          });
+      }
+
+      function sendSubscriptionToServer(subscription) {
+        const userSubscription = {
+          userId: "91f46f94-13ec-45e0-9bdc-3417a6c097d0" || "",
+          subscription: subscription,
+        };
+        fetch("http://127.0.0.1:8000/subscribe", {
+          method: "POST",
+          body: JSON.stringify(userSubscription),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -16,6 +16,10 @@
         "dest": "/public/service-worker.js"
       },
       {
+        "src": "/apps/proxy",
+        "dest": "/public/service-worker.js"
+      },
+      {
         "src": "/register-sw.html",
         "dest": "/public/register-sw.html"
       },

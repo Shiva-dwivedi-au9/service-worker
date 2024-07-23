@@ -6,7 +6,7 @@
         "dest": "/public/service-worker.js"
       },
       {
-        "src": "/apps/proxy",
+        "src": "/apps/proxy/service-worker.js",
         "dest": "/public/service-worker.js"
       },
       {

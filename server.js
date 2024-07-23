@@ -14,6 +14,7 @@ app.use((req, res, next) => {
 app.get('/service-worker.js', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/service-worker.js'), err => {
         if (err) {
+            console.log("=====>please deploy the existing one")
             console.error(err);
             res.status(500).send(err);
         }

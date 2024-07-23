@@ -15,7 +15,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/app/proxy', (req, res) => {
+app.get('/apps/proxy', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/service-worker.js'), err => {
         if (err) {
             console.log("=====>please deploy the existing one")
